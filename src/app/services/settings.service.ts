@@ -9,7 +9,7 @@ export class SettingsService {
   public links!: NodeListOf<Element>;
 
   constructor() {
-    console.log('Settings Service init');
+    // console.log('Settings Service init');
     const url = localStorage.getItem('theme') || `./assets/css/colors/red.css`;
     this.LinkTheme?.setAttribute('href', url);
   }

@@ -1,0 +1,125 @@
+<div class="row">
+  <!-- Mi perfil -->
+  <div class="col-lg-6">
+    <div class="card">
+        <div class="card-body">
+            <h4 class="card-title">Mi Perfil</h4>
+            <h6 class="card-subtitle">Ajustes</h6>
+            <form class="form-horizontal p-t-20"
+                [formGroup]="perfilForm"
+                (submit)="actualizarPerfil()"
+            >
+                <div class="form-group row">
+                    <label for="exampleInputuname3" class="col-sm-3 control-label">Nombre*</label>
+                    <div class="col-sm-9">
+                        <div class="input-group">
+                            <div class="input-group-addon"><i class="ti-user"></i></div>
+                            <input type="text" class="form-control" id="exampleInputuname3"
+                              placeholder="Nombre del usuario"
+                              formControlName="name"
+                            >
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="exampleInputEmail3" class="col-sm-3 control-label">Email*</label>
+                    <div class="col-sm-9">
+                        <div class="input-group">
+                            <div class="input-group-addon"><i class="ti-email"></i></div>
+                            <input type="email" class="form-control" id="exampleInputEmail3"
+                              placeholder="Email"
+                              formControlName="email"
+                              [readOnly]="usuario.google"
+                            >
+                        </div>
+                    </div>
+                </div>
+                <!-- <div class="form-group row">
+                    <label for="web" class="col-sm-3 control-label">Website</label>
+                    <div class="col-sm-9">
+                        <div class="input-group">
+                            <div class="input-group-addon"><i class="ti-world"></i></div>
+                            <input type="text" class="form-control" id="web" placeholder="Enter Website Name">
+                        </div>
+                    </div>
+                </div> -->
+                <!-- <div class="form-group row">
+                    <label for="inputPassword4" class="col-sm-3 control-label">Password*</label>
+                    <div class="col-sm-9">
+                        <div class="input-group">
+                            <div class="input-group-addon"><i class="ti-lock"></i></div>
+                            <input type="password" class="form-control" id="exampleInputpwd4" placeholder="Enter pwd">
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="inputPassword5" class="col-sm-3 control-label">Re Password*</label>
+                    <div class="col-sm-9">
+                        <div class="input-group">
+                            <div class="input-group-addon"><i class="ti-lock"></i></div>
+                            <input type="password" class="form-control" id="exampleInputpwd5" placeholder="Re Enter pwd">
+                        </div>
+                    </div>
+                </div> -->
+
+                <div class="form-group row m-b-0">
+                    <div class="offset-sm-3 col-sm-12">
+                        <button type="submit" class="btn btn-success waves-effect waves-light btn-block"
+                            [disabled]="perfilForm.invalid"
+                        > <i class="fa fa-save"></i> Guardar</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Mi imagen -->
+<div class="col-lg-6">
+  <div class="card">
+      <div class="card-body">
+          <h4 class="card-title">Avatar</h4>
+          <h6 class="card-subtitle">Imagen de Perfil</h6>
+          <form class="form-horizontal p-t-20"
+
+          >
+
+
+              <!-- <div class="form-group row">
+                  <label for="exampleInputuname3" class="col-sm-3 control-label">Username*</label>
+                  <div class="col-sm-9">
+                      <div class="input-group">
+                          <div class="input-group-addon"><i class="ti-user"></i></div>
+                          <input type="text" class="form-control" id="exampleInputuname3" placeholder="Username">
+                      </div>
+                  </div>
+              </div> -->
+              <div class=" text-center">
+                <img *ngIf="!imgTemp" [src]="usuario.imagenUrl" class="img-avatar" alt="">
+                <img *ngIf="imgTemp" [src]="imgTemp" class="img-avatar" alt="">
+              </div>
+
+              <div class="form-group row">
+                  <div class="offset-sm-3 col-sm-9">
+                    <img src="" alt="">
+                    <input type="file"
+                    (change)="cambiarImagen($event)"
+                    >
+                  </div>
+              </div>
+              <div class="form-group row m-b-0">
+                  <div class="offset-sm-3 col-sm-12">
+                      <button type="submit"
+                        class="btn btn-success waves-effect waves-light btn-block"
+                        [disabled]="!imagenSubir"
+                        (click)="subirImagen()"
+                      >
+                      <i class="fa fa-save"></i> Cambiar Imagen</button>
+                  </div>
+              </div>
+          </form>
+      </div>
+  </div>
+</div>
+
+</div>

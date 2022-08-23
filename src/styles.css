@@ -28,3 +28,8 @@ input::-webkit-inner-spin-button {
 input[type=number] {
   -moz-appearance: textfield;
 }
+
+.img-avatar{
+  width: 150px;
+  height: 150px;
+}

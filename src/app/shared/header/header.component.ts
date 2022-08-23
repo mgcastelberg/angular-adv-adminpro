@@ -1,6 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, AfterViewInit, OnInit } from '@angular/core';
 import { UserService } from '../../services/user.service';
 import { Router } from '@angular/router';
+import { User } from '../../models/usuario.model';
 
 @Component({
   selector: 'app-header',
@@ -8,12 +9,23 @@ import { Router } from '@angular/router';
   styles: [
   ]
 })
-export class HeaderComponent {
+export class HeaderComponent implements OnInit {
 
-  constructor( private userService: UserService, private router: Router) { }
+  // public imgUrl = '';
+  public usuario: User;
+
+  constructor( private userService: UserService, private router: Router) {
+
+  }
+
+  ngOnInit(): void {
+    // this.imgUrl = userService.usuario.imagenUrl;
+    this.usuario = this.userService.usuario;
+    let temp_name = this.usuario.name.split(" ");
+    this.usuario.name = `${temp_name[0]} ${temp_name[1]}`;
+  }
 
   logout(){
-
     this.userService.logout();
   }
 

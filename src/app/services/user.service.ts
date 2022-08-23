@@ -1,12 +1,13 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable, NgZone} from '@angular/core';
+import { Injectable, NgZone, AfterViewInit } from '@angular/core';
 import { catchError, tap } from 'rxjs/operators';
-import { Router } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 
 import { environment } from '../../environments/environment';
 import { RegisterForm } from '../interfaces/register_form.interface';
 import { LoginForm } from '../interfaces/login_form.interface';
 import { map, Observable, of } from 'rxjs';
+import { User } from '../models/usuario.model';
 // import { resolve } from 'dns';
 
 const base_url = environment.base_url;
@@ -16,10 +17,25 @@ declare const google: any;
   providedIn: 'root'
 })
 export class UserService {
+
+  public usuario: User;
+
   constructor(private http: HttpClient,
               private router: Router,
               private ngZone: NgZone) {
-    this.googleInit();
+                this.googleInit();
+  }
+
+  get token(): string {
+    return localStorage.getItem('token') || '';
+  }
+
+  get uid():string {
+     return this.usuario.uid || '';
+  }
+
+  ngAfterViewInit(): void {
+    // this.googleInit();
   }
 
   googleInit(){
@@ -45,7 +61,8 @@ export class UserService {
 
   logout(){
     localStorage.removeItem('token');
-    google.accounts.id.revoke('jmgc@', () => {
+    google.accounts.id.revoke('mgcastelberg@gmail.com', () => {
+    // google.accounts.id.revoke('jmgc@virket.com', () => {
       this.ngZone.run( () => {
         this.router.navigateByUrl('/login');
       })
@@ -53,23 +70,28 @@ export class UserService {
   }
 
   validarToken():Observable<boolean>{
-    const token = localStorage.getItem('token') || '';
+    // const token = localStorage.getItem('token') || '';
+    const token =  this.token;
 
     return this.http.get(`${ base_url }/login/renew`, {
       headers: {
         'x-token': token
       }
     }).pipe(
-      tap( (resp:any) => {
+      map( (resp:any) => {
+        console.log('google map');
+        const {name, email, role, google, img = '', uid } = resp.data.user;
+        this.usuario = new User(name, email, '', img, google, role, uid);
+        // this.usuario.imprimirUsuario();
+        // this.usuario = new User('juan', 'qwe@hot.com');
+        // this.usuario.imprimirUsuario();
         localStorage.setItem('token', resp.data.token )
-      }),
-      map( resp => {
         return true;
       }),
       catchError( error => of(false))
     );
   }
-  // of: permite crear un obserbable que regresa un valor
+  // of: permite crear un observable que regresa un valor
 
   crearUsuario(formData: RegisterForm ) {
     return this.http.post(`${ base_url }/users`, formData)
@@ -94,9 +116,24 @@ export class UserService {
                     .pipe(
                       tap( (resp:any) => {
                         // console.log(resp);
+                        console.log('login google');
                         localStorage.setItem('token', resp.data.token )
                       })
                     );
+  }
+
+  actualizarPerfil( data: { email: string, name: string, role?: string }){
+
+    data = {
+      ...data,
+      role: this.usuario.role
+    }
+
+    return this.http.put(`${ base_url }/users/${ this.uid }`, data, {
+      headers: {
+        'x-token': this.token
+      }
+    });
   }
 
 }
