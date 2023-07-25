@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable, NgZone, AfterViewInit } from '@angular/core';
-import { catchError, tap } from 'rxjs/operators';
+import { catchError, delay, tap } from 'rxjs/operators';
 import { Router, RouterModule } from '@angular/router';
 
 import { environment } from '../../environments/environment';
@@ -8,6 +8,7 @@ import { RegisterForm } from '../interfaces/register_form.interface';
 import { LoginForm } from '../interfaces/login_form.interface';
 import { map, Observable, of } from 'rxjs';
 import { User } from '../models/usuario.model';
+import { CargarUsuario } from '../interfaces/cargar-usuarios.interface';
 // import { resolve } from 'dns';
 
 const base_url = environment.base_url;
@@ -134,6 +135,36 @@ export class UserService {
         'x-token': this.token
       }
     });
+  }
+
+  get headers(){
+    return {
+      headers: {
+        'x-token': this.token
+      }
+    }
+  }
+
+  // cargarUsuarios( desde: number = 1){
+  //   const url = `${ base_url}/users?page=${ desde }`;
+  //   return this.http.get<CargarUsuario>( url, this.headers );
+  // }
+
+  cargarUsuarios( desde: number = 1){
+    const url = `${ base_url}/users?page=${ desde }`;
+    return this.http.get<CargarUsuario>( url, this.headers )
+      .pipe(
+        // delay(1000), // 1 seg - simular carga lenta
+        map( resp => {
+          console.log(resp);
+          const usuarios = resp.data.users.map(
+              user => new User(user.name, user.email, '', user.img, user.google, user.role, user.uid ))
+          return {
+            paginate: resp.data.paginate,
+            users: usuarios
+          }
+        })
+      );
   }
 
 }

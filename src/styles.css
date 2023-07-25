@@ -33,3 +33,21 @@ input[type=number] {
   width: 150px;
   height: 150px;
 }
+
+.tw-100 {
+  width: 100px;
+}
+
+.tw-75 {
+  width: 75px;
+}
+
+.tw-50 {
+  width: 50px;
+}
+
+.avatar {
+  border-radius:  100%;
+  width: 35px;
+  margin: -7px;
+}
