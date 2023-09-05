@@ -167,4 +167,16 @@ export class UserService {
       );
   }
 
+  eliminarUsuario( usuario: User){
+    // console.log('eliminando');
+    const url = `${ base_url}/users/${ usuario.uid }`;
+    return this.http.delete<CargarUsuario>( url, this.headers );
+  }
+
+  actualizarRole( usuario: User){
+
+    return this.http.put(`${ base_url }/users/${ usuario.uid }`, usuario, this.headers);
+
+  }
+
 }
