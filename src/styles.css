@@ -34,6 +34,10 @@ input[type=number] {
   height: 150px;
 }
 
+.tw-250 {
+  width: 250px;
+}
+
 .tw-120 {
   width: 120px;
 }

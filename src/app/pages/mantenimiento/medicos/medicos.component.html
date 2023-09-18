@@ -1,0 +1,79 @@
+
+<div class="row animated fadeIn fast">
+  <div class="col-12">
+      <div class="card">
+        <div class="card-body">
+
+          <input type="text"
+            class="form-control"
+            placeholder="Buscar doctor"
+            #txtTermino
+            (keyup)="buscar( txtTermino.value )"
+          >
+
+        </div>
+      </div>
+  </div>
+</div>
+
+<div class="row animated fadeIn fast"  *ngIf="cargando">
+  <div class="col-12">
+    <div class="alert alert-info text-center" role="alert">
+      <h4 class="alert-heading">Cargando</h4>
+      <i class="fa fa-spin fa-refresh fa-2x"></i>
+      <p>Por favor espere</p>
+    </div>
+  </div>
+</div>
+
+<div class="row"  *ngIf="!cargando">
+  <div class="col-12">
+    <div class="card">
+        <div class="card-body">
+
+            <div class="row">
+
+              <div class="col-sm-8">
+                <h4 class="card-title">Doctores ({{ doctors.length }})</h4>
+                <h6 class="card-subtitle">Lista de doctores registrados en mi aplicación</h6>
+              </div>
+
+              <div class="col-sm-4 text-right">
+                <a routerLink="/dashboard/doctor/nuevo" class="btn btn-primary">
+                  <i class="fa fa-hospital-o"></i>
+                  Crear Doctor
+                </a>
+              </div>
+
+            </div>
+
+            <div class="table-responsive">
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th class="tw-75 text-center">Foto</th>
+                            <th>Nombre</th>
+                            <th class="text-nowrap tw-100">Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody *ngFor="let doctor of doctors">
+                        <tr>
+                            <td class="text-center">
+                              <!-- {{ hospital.img | imagen:'hospitals' }} -->
+                              <img [src]="doctor.img | imagen:'doctors'" [alt]="doctor.name" class="avatar tw-75 cursor"(click)="abrirModal(doctor)">
+                            </td>
+                            <td>{{ doctor.name }}</td>
+                            <td class="text-nowrap text-center">
+                                <a [routerLink]="['/dashboard/doctor', doctor._id]" data-toggle="tooltip" data-original-title="Editar"> <i class="fa fa-pencil text-inverse m-r-10"></i> </a>
+                                <a (click)="borrarDoctor(doctor)" data-toggle="tooltip" data-original-title="Borrar"> <i class="fa fa-close text-danger"></i> </a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <!-- <button class="btn btn-secondary m-r-10">Anterior</button>
+            <button class="btn btn-secondary">Siguiente</button> -->
+        </div>
+    </div>
+</div>
+</div>

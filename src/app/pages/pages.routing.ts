@@ -12,6 +12,9 @@ import { AuthGuard } from '../guards/auth.guard';
 import { PerfilComponent } from './perfil/perfil.component';
 // Mantenimientos
 import { UsuariosComponent } from './mantenimiento/usuarios/usuarios.component';
+import { HospitalesComponent } from './mantenimiento/hospitales/hospitales.component';
+import { MedicosComponent } from './mantenimiento/medicos/medicos.component';
+import { DoctorComponent } from './mantenimiento/medicos/doctor.component';
 
 const routes: Routes = [
   {
@@ -28,7 +31,10 @@ const routes: Routes = [
       { path: 'perfil', component: PerfilComponent, data: { titulo: 'Perfil de usuario'} },
 
       // Mantenimientos
-      { path: 'usuarios', component: UsuariosComponent, data: { titulo: 'Usuarios de aplicación'} },
+      { path: 'usuarios', component: UsuariosComponent, data: { titulo: 'Usuarios'} },
+      { path: 'hospitales', component: HospitalesComponent, data: { titulo: 'Hospitales'} },
+      { path: 'medicos', component: MedicosComponent, data: { titulo: 'Medicos'} },
+      { path: 'doctor/:id', component: DoctorComponent, data: { titulo: 'Doctor'} },
 
     ]
   }
