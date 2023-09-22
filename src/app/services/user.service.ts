@@ -31,6 +31,10 @@ export class UserService {
     return localStorage.getItem('token') || '';
   }
 
+  get role(): 'ADMIN_ROLE' | 'USER_ROLE' | undefined {
+    return this.usuario.role;
+  }
+
   get uid():string {
      return this.usuario.uid || '';
   }
@@ -61,13 +65,19 @@ export class UserService {
   }
 
   logout(){
-    localStorage.removeItem('token');
+
+
+
+    // Todo borrar Menu
+
     google.accounts.id.revoke('mgcastelberg@gmail.com', () => {
     // google.accounts.id.revoke('jmgc@virket.com', () => {
       this.ngZone.run( () => {
         this.router.navigateByUrl('/login');
       })
     });
+    localStorage.removeItem('token');
+    localStorage.removeItem('menu');
   }
 
   validarToken():Observable<boolean>{
@@ -86,7 +96,10 @@ export class UserService {
         // this.usuario.imprimirUsuario();
         // this.usuario = new User('juan', 'qwe@hot.com');
         // this.usuario.imprimirUsuario();
-        localStorage.setItem('token', resp.data.token )
+        // localStorage.setItem('token', resp.data.token );
+        // localStorage.setItem('menu', resp.data.menu );
+        this.guardarLocalStorage(resp.data.token, resp.data.menu);
+
         return true;
       }),
       catchError( error => of(false))
@@ -98,7 +111,9 @@ export class UserService {
     return this.http.post(`${ base_url }/users`, formData)
                     .pipe(
                       tap( (resp:any) => {
-                        localStorage.setItem('token', resp.data.token )
+                        // localStorage.setItem('token', resp.data.token );
+                        // localStorage.setItem('menu', resp.data.menu );
+                        this.guardarLocalStorage(resp.data.token, resp.data.menu);
                       })
                     );
   }
@@ -107,7 +122,9 @@ export class UserService {
     return this.http.post(`${ base_url }/login`, formData)
                     .pipe(
                       tap( (resp:any) => {
-                        localStorage.setItem('token', resp.data.token )
+                        // localStorage.setItem('token', resp.data.token );
+                        // localStorage.setItem('menu', resp.data.menu );
+                        this.guardarLocalStorage(resp.data.token, resp.data.menu);;
                       })
                     );
   }
@@ -117,10 +134,17 @@ export class UserService {
                     .pipe(
                       tap( (resp:any) => {
                         // console.log(resp);
-                        console.log('login google');
-                        localStorage.setItem('token', resp.data.token )
+                        // console.log('login google');
+                        // localStorage.setItem('token', resp.data.token );
+                        // localStorage.setItem('menu', resp.data.menu );
+                        this.guardarLocalStorage(resp.data.token, resp.data.menu);
                       })
                     );
+  }
+
+  guardarLocalStorage( token: string, menu: any){
+    localStorage.setItem('token', token );
+    localStorage.setItem('menu', JSON.stringify(menu));
   }
 
   actualizarPerfil( data: { email: string, name: string, role?: string }){

@@ -29,4 +29,14 @@ export class HeaderComponent implements OnInit {
     this.userService.logout();
   }
 
+  buscar( termino: string ){
+
+    if(termino.length === 0){
+      return;
+    }
+
+    console.log(termino);
+    this.router.navigateByUrl(`/dashboard/buscar/${ termino }`);
+  }
+
 }

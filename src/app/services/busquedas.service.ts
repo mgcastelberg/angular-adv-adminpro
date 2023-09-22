@@ -70,6 +70,15 @@ export class BusquedasService {
       );
   }
 
+  busquedaGlobal(termino: string){
+    const url = `${ base_url }/todo/${ termino }`;
+    return this.http.get( url, this.headers );
+  }
+
+  abrirMedico( doctor: Doctor ){
+    console.log(doctor);
+  }
+
   // buscar(
   //   tipo: 'usuarios'|'medicos'|'hospitales',
   //   termino: string
